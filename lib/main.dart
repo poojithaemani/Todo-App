@@ -2,7 +2,9 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:todo_app/models/local_category_model.dart';
-import 'package:todo_app/repository/category_repo_impl.dart';
+import 'package:todo_app/models/local_task_model.dart';
+import 'package:todo_app/widgets/category_tag.dart';
+import 'package:todo_app/widgets/task_list_item.dart';
 import 'package:uuid/uuid.dart';
 
 void main() {
@@ -18,31 +20,52 @@ class MainApp extends StatelessWidget {
       home: Scaffold(
         body: Center(
           child: Column(
+            mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Text('Hello World!'),
-              const SizedBox(height: 20),
-              FilledButton(
-                onPressed: () async {
-                  print('button pressed');
-                  // Create a random category
-                  final randomCategory = createRandomCategory();
-                  print(
-                    'Created category: \n${randomCategory.name} with color ${randomCategory.color}',
-                  );
+              TaskListItem(taskName: createRandomTask()),
+              TaskListItem(taskName: createRandomTask()),
+              TaskListItem(taskName: createRandomTask()),
+              TaskListItem(taskName: createRandomTask()),
+              CategoryTag(category: createRandomCategory()),
+              CategoryTag(category: createRandomCategory()),
+              CategoryTag(category: createRandomCategory()),
 
-                  final categoryRepo = CategoryRepoImpl();
-                  await categoryRepo.createCategory(category: randomCategory);
-                  print('Category saved to repository.');
-                },
-                child: const Text('Add a random category'),
-              ),
+              // const SizedBox(height: 20),
+              // FilledButton(
+              //   onPressed: () async {
+              //     print('button pressed');
+              //     // Create a random category
+              //     final randomCategory = createRandomCategory();
+              //     print(
+              //       'Created category: \n${randomCategory.name} with color ${randomCategory.color}',
+              //     );
+
+              //     final categoryRepo = CategoryRepoImpl();
+              //     await categoryRepo.createCategory(category: randomCategory);
+              //     print('Category saved to repository.');
+              //   },
+              //   child: const Text('Add a random category'),
+              // ),
             ],
           ),
         ),
       ),
     );
   }
+}
+
+LocalTaskModel createRandomTask() {
+  late final LocalTaskModel result;
+  result = LocalTaskModel(
+    title: Uuid().v4(),
+    deadline: DateTime.now(),
+    isDone: Random().nextBool(),
+    category: createRandomCategory(),
+    id: Uuid().v4(),
+  );
+  return result;
 }
 
 LocalCategoryModel createRandomCategory() {
