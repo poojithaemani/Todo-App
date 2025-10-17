@@ -6,6 +6,7 @@ import 'package:todo_app/models/local_task_model.dart';
 import 'package:todo_app/widgets/category_tag.dart';
 import 'package:todo_app/widgets/task_list_item.dart';
 import 'package:uuid/uuid.dart';
+import 'package:todo_app/repository/category_repo_impl.dart';
 
 void main() {
   runApp(const MainApp());
@@ -24,6 +25,8 @@ class MainApp extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Text('Hello World!'),
+              const SizedBox(height: 20),
+              TaskListItem(taskName: createRandomTask()),
               TaskListItem(taskName: createRandomTask()),
               TaskListItem(taskName: createRandomTask()),
               TaskListItem(taskName: createRandomTask()),
@@ -32,22 +35,32 @@ class MainApp extends StatelessWidget {
               CategoryTag(category: createRandomCategory()),
               CategoryTag(category: createRandomCategory()),
 
-              // const SizedBox(height: 20),
-              // FilledButton(
-              //   onPressed: () async {
-              //     print('button pressed');
-              //     // Create a random category
-              //     final randomCategory = createRandomCategory();
-              //     print(
-              //       'Created category: \n${randomCategory.name} with color ${randomCategory.color}',
-              //     );
+              FilledButton(
+                onPressed: () async {
+                  print('button pressed');
+                  // Create a random category
+                  final randomCategory = createRandomCategory();
+                  print(
+                    'Created category: \n${randomCategory.name} with color ${randomCategory.color}',
+                  );
 
-              //     final categoryRepo = CategoryRepoImpl();
-              //     await categoryRepo.createCategory(category: randomCategory);
-              //     print('Category saved to repository.');
-              //   },
-              //   child: const Text('Add a random category'),
-              // ),
+                  final categoryRepo = CategoryRepoImpl();
+                  await categoryRepo.createCategory(category: randomCategory);
+                  print('Category saved to repository.');
+                },
+                child: const Text('Add a random category'),
+              ),
+              FilledButton(
+                onPressed: () async {
+                  print('button pressed2');
+                  // Create a random category
+
+                  final categoryRepo = CategoryRepoImpl();
+                  await categoryRepo.getAllCategories();
+                  print('Category saved to repository.');
+                },
+                child: const Text('load category'),
+              ),
             ],
           ),
         ),
